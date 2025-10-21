@@ -403,15 +403,18 @@ void DeviceContainer::init(
   {
     throw DeviceContainerException("Fatal: Loading Master Failed.");
   }
+  RCLCPP_INFO(this->get_logger(), "Master loaded successfully.");
   if (!this->load_drivers())
   {
     throw DeviceContainerException("Fatal: Loading Drivers Failed.");
   }
+  RCLCPP_INFO(this->get_logger(), "Drivers loaded successfully.");
 
   if (!this->load_manager())
   {
     throw DeviceContainerException("Fatal: Loading Manager Failed.");
   }
+  RCLCPP_INFO(this->get_logger(), "Manager loaded successfully.");
 }
 
 void DeviceContainer::on_list_nodes(

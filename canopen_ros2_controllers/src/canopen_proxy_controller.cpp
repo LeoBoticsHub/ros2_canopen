@@ -153,10 +153,10 @@ controller_interface::CallbackReturn CanopenProxyController::on_configure(
       std::numeric_limits<double>::quiet_NaN());
   };
 
-  auto service_profile = rclcpp::QoS(1);
+  auto service_profile = rclcpp::SystemDefaultsQoS();
   service_profile.keep_all();
   nmt_state_reset_service_ = get_node()->create_service<ControllerStartResetSrvType>(
-    "~/nmt_reset_node", on_nmt_state_reset, service_profile);
+    "~/nmt_reset_node", on_nmt_state_reset, service_profile.get_rmw_qos_profile());
 
   // NMT start
   auto on_nmt_state_start = [&](
@@ -178,7 +178,7 @@ controller_interface::CallbackReturn CanopenProxyController::on_configure(
       std::numeric_limits<double>::quiet_NaN());
   };
   nmt_state_start_service_ = get_node()->create_service<ControllerStartResetSrvType>(
-    "~/nmt_start_node", on_nmt_state_start, service_profile);
+    "~/nmt_start_node", on_nmt_state_start, service_profile.get_rmw_qos_profile());
 
   // SDO read
   auto on_sdo_read = [&](
@@ -186,7 +186,7 @@ controller_interface::CallbackReturn CanopenProxyController::on_configure(
                        canopen_interfaces::srv::CORead::Response::SharedPtr response) {};
 
   sdo_read_service_ = get_node()->create_service<ControllerSDOReadSrvType>(
-    "~/sdo_read", on_sdo_read, service_profile);
+    "~/sdo_read", on_sdo_read, service_profile.get_rmw_qos_profile());
 
   // SDO write
   auto on_sdo_write = [&](
@@ -196,7 +196,7 @@ controller_interface::CallbackReturn CanopenProxyController::on_configure(
   };
 
   sdo_write_service_ = get_node()->create_service<ControllerSDOWriteSrvType>(
-    "~/sdo_write", on_sdo_write, service_profile);
+    "~/sdo_write", on_sdo_write, service_profile.get_rmw_qos_profile());
 
   RCLCPP_INFO(get_node()->get_logger(), "configure successful");
   return controller_interface::CallbackReturn::SUCCESS;

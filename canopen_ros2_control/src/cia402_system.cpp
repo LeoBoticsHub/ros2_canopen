@@ -56,21 +56,35 @@ void Cia402System::initDeviceContainer()
   device_container_->init(
     info_.hardware_parameters["can_interface_name"], info_.hardware_parameters["master_config"],
     info_.hardware_parameters["bus_config"], tmp_master_bin);
-  auto drivers = device_container_->get_registered_drivers();
+  std::map<uint16_t, std::shared_ptr<CanopenDriverInterface>> drivers = device_container_->get_registered_drivers();
   RCLCPP_INFO(kLogger, "Number of registered drivers: '%lu'", device_container_->count_drivers());
   for (auto it = drivers.begin(); it != drivers.end(); it++)
   {
-    auto driver = std::static_pointer_cast<ros2_canopen::Cia402Driver>(it->second);
-
-    auto nmt_state_cb = [&](canopen::NmtState nmt_state, uint8_t id)
-    { canopen_data_[id].nmt_state.set_state(nmt_state); };
+    std::shared_ptr<ros2_canopen::CanopenDriverInterface> base_driver = it->second;
+    //std::shared_ptr<ros2_canopen::Cia402Driver> driver = std::static_pointer_cast<ros2_canopen::Cia402Driver>(it->second);
+    std::shared_ptr<ros2_canopen::Cia402Driver> driver =
+      std::dynamic_pointer_cast<ros2_canopen::Cia402Driver>(base_driver);
+    if (!driver)
+    {
+      RCLCPP_ERROR(kLogger, "Could not cast driver for node id: 0x%X", it->first);
+      return;
+    } else {
+      RCLCPP_INFO(kLogger, "Setting up driver for node id: 0x%X", it->first);
+    }
+    
+    std::function<void(canopen::NmtState, uint8_t)> nmt_state_cb = [&](canopen::NmtState nmt_state, uint8_t id)
+    { 
+      canopen_data_[id].nmt_state.set_state(nmt_state); 
+    };
     // register callback
     driver->register_nmt_state_cb(nmt_state_cb);
+    RCLCPP_INFO(kLogger, "Registered NMT state callback for node id: 0x%X", it->first);
 
     auto rpdo_cb = [&](ros2_canopen::COData data, uint8_t id)
     { canopen_data_[id].rpdo_data.set_data(data); };
     // register callback
     driver->register_rpdo_cb(rpdo_cb);
+    RCLCPP_INFO(kLogger, "Registered RPDO callback for node id: 0x%X", it->first);
 
     RCLCPP_INFO(
       kLogger, "\nRegistered driver:\n    name: '%s'\n    node_id: '0x%X'",

@@ -290,10 +290,11 @@ hardware_interface::return_type CanopenSystem::read(
         canopen_data.emcy_data.original_emcy.msef[0], canopen_data.emcy_data.original_emcy.msef[1],
         canopen_data.emcy_data.original_emcy.msef[2], canopen_data.emcy_data.original_emcy.msef[3],
         canopen_data.emcy_data.original_emcy.msef[4]);
+        return hardware_interface::return_type::ERROR;
     }
   }
 
-  return hardware_interface::return_type::ERROR;
+  return hardware_interface::return_type::OK;
 }
 
 hardware_interface::return_type CanopenSystem::write(
@@ -301,15 +302,8 @@ hardware_interface::return_type CanopenSystem::write(
 {
   // TODO(anyone): write robot's commands'
   auto drivers = device_container_->get_registered_drivers();
-
   for (auto it = canopen_data_.begin(); it != canopen_data_.end(); ++it)
   {
-    if (drivers.find(it->first) == drivers.end())
-    {
-      // this is expected for NodeID 0x00 - why do we have it at all?
-      RCLCPP_DEBUG(kLogger, "Driver for NodeID 0x%X not found. Skipping...", it->first);
-      continue;
-    }
     auto proxy_driver = std::static_pointer_cast<ros2_canopen::ProxyDriver>(drivers[it->first]);
 
     // reset node nmt
@@ -328,14 +322,7 @@ hardware_interface::return_type CanopenSystem::write(
     if (it->second.tpdo_data.write_command())
     {
       it->second.tpdo_data.prepare_data();
-      try
-      {
-        proxy_driver->tpdo_transmit(it->second.tpdo_data.original_data);
-      }
-      catch (const std::exception & e)
-      {
-        std::cerr << e.what() << '\n';
-      }
+      proxy_driver->tpdo_transmit(it->second.tpdo_data.original_data);
     }
   }
 

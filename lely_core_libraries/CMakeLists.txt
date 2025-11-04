@@ -1,54 +1,53 @@
 cmake_minimum_required(VERSION 3.8)
 project(lely_core_libraries)
+
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
-set(python_version "python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}")
+find_package(PkgConfig REQUIRED) # required to find lely-core libraries
 
-include(ExternalProject)
-ExternalProject_Add(upstr_lely_core_libraries    # Name for custom target
-  #--Download step--------------
-  SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/upstream
-  INSTALL_DIR "${CMAKE_INSTALL_PREFIX}"  # Installation prefix
-  BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/build
-  GIT_REPOSITORY https://gitlab.com/lely_industries/lely-core.git
-  GIT_TAG fb735b79cab5f0cdda45bc5087414d405ef8f3ab
-  TIMEOUT 60
-  #UPDATE step apply patch to fix dcf-tools install
-  UPDATE_COMMAND
-  COMMAND git reset --hard
-  COMMAND git apply --whitespace=fix --reject ${CMAKE_CURRENT_SOURCE_DIR}/patches/0001-Fix-dcf-tools.patch
-  #CONFIGURE step execute autoreconf and configure
-  CONFIGURE_COMMAND autoreconf -i <SOURCE_DIR>
-  COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --disable-cython --disable-doc --disable-tests --disable-static --disable-diag
-  #BUILD STEP execute make
-  BUILD_COMMAND $(MAKE) -C ${CMAKE_CURRENT_BINARY_DIR}/build
-  #INSTALL STEP do nothing as we install in main
-  INSTALL_COMMAND ""
+# Find System-Installed Lely Libraries using pkg-config
+# If the check passes, the libraries are found on the system
+set(LELY_CORE_LIBRARIES
+	liblely-can
+	liblely-co
+	liblely-coapp
+	liblely-ev
+	liblely-io2
+	liblely-libc
+	liblely-tap
+	liblely-util
 )
+pkg_check_modules(LELY_CANOPEN REQUIRED ${LELY_CORE_LIBRARIES})
 
-#INSTALL lely_core_libraries - execute make install
-install(CODE "execute_process(COMMAND ${CMAKE_MAKE_PROGRAM} install VERBOSE=1 WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/build)")
-
-set(lely_core_cmake_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+# Include the CMake extras file
+set(lely_core_cmake_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 include("cmake/lely_core_libraries-extras.cmake" NO_POLICY_SCOPE)
 
-
+# Install the CMake files for downstream packages
 install(
-  DIRECTORY cmake
-  DESTINATION share/${PROJECT_NAME}
+    DIRECTORY cmake
+    DESTINATION share/${PROJECT_NAME}
 )
 
-ament_python_install_package(cogen SCRIPTS_DESTINATION lib/cogen)
+ament_python_install_package(cogen)
 
-# install entry-point script(s) in bin as well
-install(
-    DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/ament_cmake_python/cogen/scripts/
-    DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/
-    USE_SOURCE_PERMISSIONS)
+# install the entry-point script in lib directory for other packages to find
+install(PROGRAMS
+	cogen/cogen.py
+	DESTINATION lib/${PROJECT_NAME}
+)
 
-ament_export_include_directories(include)
+# process the template file: replace @CMAKE_INSTALL_PREFIX@ with the correct path
+configure_file(
+    cmake/cogen_py_script_path.cmake.in
+    "${CMAKE_CURRENT_BINARY_DIR}/cogen_py_script_path.cmake"
+    @ONLY
+)
+
+# Export the required header directories and library names
 ament_export_libraries(lely-can lely-co lely-coapp lely-ev lely-io2 lely-libc lely-tap lely-util)
 ament_package(
-  CONFIG_EXTRAS
-  "cmake/lely_core_libraries-extras.cmake"
+    CONFIG_EXTRAS
+    "cmake/lely_core_libraries-extras.cmake" # lely_core_libraries-extras: macros 
+	"${CMAKE_CURRENT_BINARY_DIR}/cogen_py_script_path.cmake" # cogen_script_path
 )

@@ -10,16 +10,16 @@ find_package(ament_cmake REQUIRED)
 find_package(lely_core_libraries REQUIRED)
 
 # generate DCF files from YAML bus description files
-generate_dcf("config/simple/bus.yml")
-generate_dcf("config/canopen_system/bus.yml")
-cogen_dcf("config/cia402_system/bus.yml")
-cogen_dcf("config/cia402_namespaced_system/bus.yml")
-cogen_dcf("config/cia402/bus.yml")
-generate_dcf("config/cia402_lifecycle/bus.yml")
-cogen_dcf("config/cia402_diagnostics/bus.yml")
-generate_dcf("config/simple_lifecycle/bus.yml")
-cogen_dcf("config/simple_diagnostics/bus.yml")
-generate_dcf("config/robot_control/bus.yml")
+generate_dcf("config/simple/bus.yaml")
+generate_dcf("config/canopen_system/bus.yaml")
+cogen_dcf("config/cia402_system/bus.yaml")
+cogen_dcf("config/cia402_namespaced_system/bus.yaml")
+cogen_dcf("config/cia402/bus.yaml")
+generate_dcf("config/cia402_lifecycle/bus.yaml")
+cogen_dcf("config/cia402_diagnostics/bus.yaml")
+generate_dcf("config/simple_lifecycle/bus.yaml")
+cogen_dcf("config/simple_diagnostics/bus.yaml")
+generate_dcf("config/robot_control/bus.yaml")
 
 # install manually also the config folder
 install(DIRECTORY

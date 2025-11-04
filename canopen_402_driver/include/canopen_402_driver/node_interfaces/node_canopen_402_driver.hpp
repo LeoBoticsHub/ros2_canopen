@@ -49,6 +49,7 @@ protected:
   rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr handle_set_mode_position_service;
   rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr handle_set_mode_torque_service;
   rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr handle_set_mode_velocity_service;
+  rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr handle_set_mode_direct_velocity_service;
   rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr handle_set_mode_cyclic_velocity_service;
   rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr handle_set_mode_cyclic_position_service;
   rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr handle_set_mode_cyclic_torque_service;
@@ -227,6 +228,20 @@ public:
    * @param [out] response
    */
   void handle_set_mode_velocity(
+    const std_srvs::srv::Trigger::Request::SharedPtr request,
+    std_srvs::srv::Trigger::Response::SharedPtr response);
+
+  /**
+   * @brief Service Callback to set velocity mode
+   *
+   * Calls Motor402::enterModeAndWait with Velocity Mode as
+   * Target Operation Mode. If successful, the motor was transitioned
+   * to Velocity Mode.
+   *
+   * @param [in] request
+   * @param [out] response
+   */
+  void handle_set_mode_direct_velocity(
     const std_srvs::srv::Trigger::Request::SharedPtr request,
     std_srvs::srv::Trigger::Response::SharedPtr response);
 

@@ -70,6 +70,7 @@ struct MotorNodeData
   // mode control
   MotorTriggerCommand position_mode;
   MotorTriggerCommand velocity_mode;
+  MotorTriggerCommand direct_velocity_mode;
   MotorTriggerCommand cyclic_velocity_mode;
   MotorTriggerCommand cyclic_position_mode;
   MotorTriggerCommand torque_mode;

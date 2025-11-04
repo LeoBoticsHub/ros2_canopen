@@ -87,6 +87,12 @@ void NodeCanopen402Driver<rclcpp::Node>::init(bool called_from_base)
       &NodeCanopen402Driver<rclcpp::Node>::handle_set_mode_velocity, this, std::placeholders::_1,
       std::placeholders::_2));
 
+  handle_set_mode_direct_velocity_service = this->node_->create_service<std_srvs::srv::Trigger>(
+    std::string(this->node_->get_name()).append("/direct_velocity_mode").c_str(),
+    std::bind(
+      &NodeCanopen402Driver<rclcpp::Node>::handle_set_mode_direct_velocity, this, std::placeholders::_1,
+      std::placeholders::_2));
+
   handle_set_mode_cyclic_velocity_service = this->node_->create_service<std_srvs::srv::Trigger>(
     std::string(this->node_->get_name()).append("/cyclic_velocity_mode").c_str(),
     std::bind(
@@ -477,6 +483,14 @@ void NodeCanopen402Driver<NODETYPE>::handle_set_mode_velocity(
   std_srvs::srv::Trigger::Response::SharedPtr response)
 {
   response->success = set_operation_mode(MotorBase::Profiled_Velocity);
+}
+
+template <class NODETYPE>
+void NodeCanopen402Driver<NODETYPE>::handle_set_mode_direct_velocity(
+  const std_srvs::srv::Trigger::Request::SharedPtr request,
+  std_srvs::srv::Trigger::Response::SharedPtr response)
+{
+  response->success = set_operation_mode(MotorBase::Velocity);
 }
 
 template <class NODETYPE>

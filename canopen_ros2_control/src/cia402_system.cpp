@@ -312,6 +312,7 @@ hardware_interface::return_type Cia402System::write(
         motion_controller_driver->set_target(motor_data_[it->first].target.position_value);
         break;
       case MotorBase::Profiled_Velocity:
+      case MotorBase::Velocity:
       case MotorBase::Cyclic_Synchronous_Velocity:
         motion_controller_driver->set_target(motor_data_[it->first].target.velocity_value);
         break;

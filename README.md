@@ -1,5 +1,14 @@
 # ROS2 CANopen
 
+Install the CAN dependencies:
+```bash
+sudo apt-get install can-utils
+sudo add-apt-repository ppa:lely/ppa
+sudo apt-get update
+sudo apt-get install liblely-coapp-dev liblely-co-tools liblely-tap-dev python3-dcf-tools pkg-config
+```
+
+
 ## Status
 
 | Build Process | Status |

@@ -1,0 +1,10 @@
+# This file is installed to the share directory.
+# It sets a variable containing the absolute path to the cogen.py script.
+
+# The @INSTALL_PREFIX@ placeholder is set by the configure_file call in CMakeLists.txt.
+# It points to the 'install' directory.
+# We then navigate to the script's actual installed location.
+set(COGEN_SCRIPT_PATH 
+    "@CMAKE_INSTALL_PREFIX@/lib/@PROJECT_NAME@/cogen.py"
+    CACHE INTERNAL "Absolute path to the cogen.py script."
+)

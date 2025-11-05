@@ -9,24 +9,23 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(lely_core_libraries REQUIRED)
 
+# generate DCF files from YAML bus description files
+generate_dcf("config/simple/bus.yaml")
+generate_dcf("config/canopen_system/bus.yaml")
+cogen_dcf("config/cia402_system/bus.yaml")
+cogen_dcf("config/cia402_namespaced_system/bus.yaml")
+cogen_dcf("config/cia402/bus.yaml")
+generate_dcf("config/cia402_lifecycle/bus.yaml")
+cogen_dcf("config/cia402_diagnostics/bus.yaml")
+generate_dcf("config/simple_lifecycle/bus.yaml")
+cogen_dcf("config/simple_diagnostics/bus.yaml")
+generate_dcf("config/robot_control/bus.yaml")
 
-generate_dcf(simple)
-generate_dcf(canopen_system)
-cogen_dcf(cia402_system)
-cogen_dcf(cia402_namespaced_system)
-cogen_dcf(cia402)
-generate_dcf(cia402_lifecycle)
-cogen_dcf(cia402_diagnostics)
-generate_dcf(simple_lifecycle)
-cogen_dcf(simple_diagnostics)
-generate_dcf(robot_control)
-
+# install manually also the config folder
 install(DIRECTORY
-  launch rviz urdf launch_tests
+  launch rviz urdf launch_tests config
   DESTINATION share/${PROJECT_NAME}
 )
-
-
 
 if(BUILD_TESTING)
   if(CANOPEN_ENABLED)

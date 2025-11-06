@@ -156,6 +156,8 @@ bool Motor402::switchMode(uint16_t mode)
       {
         this->diag_collector_->addf("cia402_mode", "Mode switched to: %d", mode);
       }
+      RCLCPP_INFO(rclcpp::get_logger("canopen_402_driver"), "Mode switched to: %s", 
+        operation_mode_strings_[mode].c_str());
     }
     else
     {

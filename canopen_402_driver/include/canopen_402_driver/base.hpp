@@ -49,6 +49,20 @@ public:
     Cyclic_Synchronous_Torque = 10,
   };
 
+  const std::string operation_mode_strings_[11] = {
+    "No_Mode",
+    "Profiled_Position",
+    "Velocity",
+    "Profiled_Velocity",
+    "Profiled_Torque",
+    "Reserved",
+    "Homing",
+    "Interpolated_Position",
+    "Cyclic_Synchronous_Position",
+    "Cyclic_Synchronous_Velocity",
+    "Cyclic_Synchronous_Torque",
+  };
+
   /**
    * @brief Set target
    *

@@ -13,44 +13,22 @@ sudo apt-get install liblely-coapp-dev liblely-co-tools liblely-tap-dev python3-
 
 | Build Process | Status |
 |---------------|--------|
-| Industrial CI Build | [![Industrial CI](https://github.com/ros-industrial/ros2_canopen/actions/workflows/rolling.yml/badge.svg)](https://github.com/ros-industrial/ros2_canopen/actions/workflows/rolling.yml) |
-| Documentation Build | [![Documentation](https://github.com/ros-industrial/ros2_canopen/actions/workflows/rolling_documentation.yml/badge.svg)](https://github.com/ros-industrial/ros2_canopen/actions/workflows/rolling_documentation.yml) |
-| Buildfarm Build (rolling) | [![Buildfarm Status](https://build.ros2.org/job/Rdev__ros2_canopen__ubuntu_noble_amd64/badge/icon)](https://build.ros2.org/job/Rdev__ros2_canopen__ubuntu_noble_amd64/) |
-| Buildfarm Build (kilted) | [![Buildfarm Status](https://build.ros2.org/job/Kdev__ros2_canopen__ubuntu_noble_amd64/badge/icon)](https://build.ros2.org/job/Kdev__ros2_canopen__ubuntu_noble_amd64/) |
-| Buildfarm Build (jazzy) | [![Buildfarm Status](https://build.ros2.org/job/Jdev__ros2_canopen__ubuntu_noble_amd64/badge/icon)](https://build.ros2.org/job/Jdev__ros2_canopen__ubuntu_noble_amd64/) |
+| Industrial CI Build | [![Industrial CI](https://github.com/LeoBoticsHub/ros2_canopen/actions/workflows/master.yml/badge.svg)](https://github.com/LeoBoticsHub/ros2_canopen/actions/workflows/master.yml) |
+| Documentation Build | [![Documentation](https://github.com/LeoBoticsHub/ros2_canopen/actions/workflows/master_documentation.yml/badge.svg)](https://github.com/LeoBoticsHub/ros2_canopen/actions/workflows/master_documentation.yml) |
 
-The stack is currently under development and not yet ready for production use.
-
-### Rolling Distribution (Noble & RHEL9)
-
-| Package                  | Noble (Ubuntu)                                                                                                                  | RHEL9                                                                                                                            |
-|--------------------------|---------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
-| canopen_interfaces       | [![Build Status](https://build.ros2.org/job/Rbin_uN64__canopen_interfaces__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__canopen_interfaces__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__canopen_interfaces__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__canopen_interfaces__rhel_9_x86_64__binary/) |
-| lely_core_libraries      | [![Build Status](https://build.ros2.org/job/Rbin_uN64__lely_core_libraries__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__lely_core_libraries__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__lely_core_libraries__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__lely_core_libraries__rhel_9_x86_64__binary/) |
-| canopen_core             | [![Build Status](https://build.ros2.org/job/Rbin_uN64__canopen_core__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__canopen_core__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__canopen_core__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__canopen_core__rhel_9_x86_64__binary/) |
-| canopen_master_driver    | [![Build Status](https://build.ros2.org/job/Rbin_uN64__canopen_master_driver__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__canopen_master_driver__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__canopen_master_driver__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__canopen_master_driver__rhel_9_x86_64__binary/) |
-| canopen_base_driver      | [![Build Status](https://build.ros2.org/job/Rbin_uN64__canopen_base_driver__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__canopen_base_driver__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__canopen_base_driver__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__canopen_base_driver__rhel_9_x86_64__binary/) |
-| canopen_proxy_driver     | [![Build Status](https://build.ros2.org/job/Rbin_uN64__canopen_proxy_driver__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__canopen_proxy_driver__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__canopen_proxy_driver__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__canopen_proxy_driver__rhel_9_x86_64__binary/) |
-| canopen_402_driver       | [![Build Status](https://build.ros2.org/job/Rbin_uN64__canopen_402_driver__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__canopen_402_driver__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__canopen_402_driver__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__canopen_402_driver__rhel_9_x86_64__binary/) |
-| canopen_ros2_control     | [![Build Status](https://build.ros2.org/job/Rbin_uN64__canopen_ros2_control__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__canopen_ros2_control__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__canopen_ros2_control__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__canopen_ros2_control__rhel_9_x86_64__binary/) |
-| canopen_ros2_controllers | [![Build Status](https://build.ros2.org/job/Rbin_uN64__canopen_ros2_controllers__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__canopen_ros2_controllers__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__canopen_ros2_controllers__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__canopen_ros2_controllers__rhel_9_x86_64__binary/) |
-| canopen_tests            | [![Build Status](https://build.ros2.org/job/Rbin_uN64__canopen_tests__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__canopen_tests__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__canopen_tests__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__canopen_tests__rhel_9_x86_64__binary/) |
-| canopen_utils            | [![Build Status](https://build.ros2.org/job/Rbin_uN64__canopen_utils__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__canopen_utils__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__canopen_utils__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__canopen_utils__rhel_9_x86_64__binary/) |
 
 ## Documentation
 The documentation consists of two parts: a manual and an api reference.
-The documentation is built for rolling (master), iron and humble and hosted on github pages.
-Older ROS 2 releases are EOL and are not supported anymore.
+The documentation is built for Humble (master) and hosted on github pages.
 
-***Note:** Master branch works with ROS2 **Jazzy**, **Kilted** and **Rolling** distributions. For **Humble** distribution use the `humble` branch.*
+***Note:** Master branch works with ROS2 **Humble** distributions.
 
-### Rolling
-* Manual: https://ros-industrial.github.io/ros2_canopen/manual/rolling/
-* API reference: https://ros-industrial.github.io/ros2_canopen/api/rolling/
+### Master (Humble)
 
-### Humble
-* Manual: https://ros-industrial.github.io/ros2_canopen/manual/humble/
-* API reference: https://ros-industrial.github.io/ros2_canopen/api/humble/
+* Manual: https://LeoBoticsHub.github.io/ros2_canopen/manual/master/
+* API reference: https://LeoBoticsHub.github.io/ros2_canopen/api/master/
+
+
 
 ## Features
 These are some of the features this stack implements. For further information please refer to the documentation.
@@ -61,7 +39,7 @@ These are some of the features this stack implements. For further information pl
   The stack can be operated using standard ROS2 nodes. In this case the device container will load the drivers for master and slave nodes. Each driver will be visible as a
   node and expose a ROS 2 interface. All drivers are brought up when the device manager is launched.
 * **Managed service based operation**
-  The stack can be opeprated using managed ROS2 nodes. In
+  The stack can be operated using managed ROS2 nodes. In
   this case the device container will load the drivers for master and slave nodes based on the bus configuration. Each driver will be a lifecycle node and expose a ROS 2 interface. The lifecycle manager can be used to bring all
   device up and down in the correct sequence.
 * **ROS2 control based operation**

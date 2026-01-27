@@ -2,9 +2,9 @@ name: Industrial CI Humble
 
 on:
   push:
-    branches: [ master ]
+    branches: [ docs_update ]
   pull_request:
-    branches: [ master ]
+    branches: [ docs_update ]
   workflow_dispatch:
 
 jobs:

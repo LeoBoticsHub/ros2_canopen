@@ -12,7 +12,7 @@ Robot System Interface
 
 The robot system interface takes a number of inputs from the robot description (urdf).
 It will make the Cia402Drivers available via the ros2_control hardware interface.
-The bus has to still be defined in the bus.yml file. In the urdf you can the choose the
+The bus has to still be defined in the bus.yaml file. In the urdf you can the choose the
 CANopen nodes that have a Cia402Driver attached to them.
 
 The ros2_control interface only works with non-lifecycle drivers right now.

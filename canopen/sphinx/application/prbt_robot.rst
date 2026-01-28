@@ -24,7 +24,7 @@ Package creation and setup
         $ mkdir -p urdf
         $ touch config/prbt_ros2_control.yaml
 
-- Create a new bus configuration folder with name ``prbt``. And create ``bus.yml`` and copy ``prbt_0_1.dcf`` from `pilz_support <https://github.com/PilzDE/pilz_robots/tree/noetic-devel/prbt_support/config>`_ package.
+- Create a new bus configuration folder with name ``prbt``. And create ``bus.yaml`` and copy ``prbt_0_1.dcf`` from `pilz_support <https://github.com/PilzDE/pilz_robots/tree/noetic-devel/prbt_support/config>`_ package.
 
     Now the package structure should look like this:
 
@@ -33,7 +33,7 @@ Package creation and setup
         prbt_robot_support
             ├── config
             │   ├── prbt
-            │   |   ├── bus.yml
+            │   |   ├── bus.yaml
             │   |   └── prbt_0_1.dcf
             │   └── prbt_ros2_control.yaml
             ├── launch
@@ -41,7 +41,7 @@ Package creation and setup
             ├── CMakeLists.txt
             └── package.xml
 
-- Add the following to the ``bus.yml``
+- Add the following to the ``bus.yaml``
 
     .. code-block:: yaml
 

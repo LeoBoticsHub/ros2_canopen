@@ -105,7 +105,7 @@ Subscribers
 
 Bus Configuration Parameters
 ----------------------------
-Additional parameters that can be used in bus.yml for this driver.
+Additional parameters that can be used in bus.yaml for this driver.
 
 
 .. list-table::

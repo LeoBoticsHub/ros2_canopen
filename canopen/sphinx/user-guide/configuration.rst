@@ -12,12 +12,12 @@ Consequently, the structure of the configuration package should look as follows:
           {package_name}
           ├── config
           │   ├── {bus_config_name_1}
-          │   |   ├── bus.yml
+          │   |   ├── bus.yaml
           │   |   ├── {device1}.eds
           │   |   ├── {device...}.eds
           │   |   └── {slave_n}.eds
           │   └── {bus_config_name_2}
-          │       ├── bus.yml
+          │       ├── bus.yaml
           │       ├── {device1}.eds
           │       ├── {device...}.eds
           │       └── {slave_n}.eds

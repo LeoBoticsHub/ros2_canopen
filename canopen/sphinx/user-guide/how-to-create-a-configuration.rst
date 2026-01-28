@@ -72,23 +72,23 @@ Bus configuration creation
 
 #. **Create the bus configuration specifications**
     To specify the bus configuration ros2_canopen uses the a YAML-file called
-    bus.yml. Create the file in the respective bus configuration folder.
+    bus.yaml. Create the file in the respective bus configuration folder.
 
     .. code-block:: console
 
-      $ touch bus.yml
+      $ touch bus.yaml
 
     ::
 
           {package_name}
           ├── config
           │   ├── {bus_config_name_1}
-          │   |   ├── bus.yml
+          │   |   ├── bus.yaml
           │   |   ├── {device1}.eds
           │   |   ├── {device...}.eds
           │   |   └── {slave_n}.eds
           │   └── {bus_config_name_2}
-          │       ├── bus.yml
+          │       ├── bus.yaml
           │       ├── {device1}.eds
           │       ├── {device...}.eds
           │       └── {slave_n}.eds
@@ -96,7 +96,7 @@ Bus configuration creation
           └── package.xml
 
 #. **Edit the bus configuration specifications**
-    You need to modify each bus.yml file according to your needs.
+    You need to modify each bus.yaml file according to your needs.
     First you need to define where these files and generated files will be
     found at runtime. This is usually the following if you use colcon to
     build from source.

@@ -26,25 +26,22 @@ jobs:
           key: ccache-${{ matrix.ROS_DISTRO }}-${{ matrix.ROS_REPO }}-${{github.run_id}}
           restore-keys: |
             ccache-${{ matrix.ROS_DISTRO }}-${{ matrix.ROS_REPO }}-
+
+      # Step 3: This modifies the VM environment
+      - name: Install System Dependencies
+        run: |
+          sudo add-apt-repository ppa:lely/ppa -y
+          sudo apt-get update
+          sudo apt-get install -y \
+            liblely-core-dev liblely-coapp-dev liblely-co-tools \
+            liblely-can-dev liblely-co-dev liblely-ev-dev \
+            liblely-io2-dev liblely-libc-dev liblely-tap-dev \
+            liblely-util-dev python3-dcf-tools pkg-config can-utils
+
+      # Step 4: Use the VM environment directly
       - uses: 'ros-industrial/industrial_ci@master'
         env:
           BEFORE_INSTALL_TARGET_DEPENDENCIES: 'sudo apt-get update'
           ROS_DISTRO: ${{ matrix.ROS_DISTRO }}
           ROS_REPO: ${{ matrix.ROS_REPO }}
-          BEFORE_INSTALL_SYS_DEPENDENCIES: |
-            sudo add-apt-repository ppa:lely/ppa -y && \
-            sudo apt-get update && \
-            sudo apt-get install -y \
-              liblely-core-dev \
-              liblely-coapp-dev \
-              liblely-co-tools \
-              liblely-can-dev \
-              liblely-co-dev \
-              liblely-ev-dev \
-              liblely-io2-dev \
-              liblely-libc-dev \
-              liblely-tap-dev \
-              liblely-util-dev
-              python3-dcf-tools \
-              pkg-config \
-              can-utils
+          DOCKER_BASE_IMAGE: "" # Forces CI to run on the runner, not in a fresh Docker container

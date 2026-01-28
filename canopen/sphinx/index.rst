@@ -37,7 +37,7 @@ This is the documentation of the ROS2 CANopen stack.
   developers-guide/architecture
   developers-guide/new-driver
   developers-guide/new-master
-  API Reference <https://leoboticshub.github.io/ros2_canopen/api/humble/>
+  API Reference <https://leoboticshub.github.io/ros2_canopen/api/>
 
 .. toctree::
   :maxdepth: 1

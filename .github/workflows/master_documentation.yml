@@ -49,10 +49,9 @@ jobs:
       - name: Create commit
         run: |
             git clone https://github.com/LeoBoticsHub/ros2_canopen.git --branch gh-pages --single-branch gh-pages
-            mkdir -p gh-pages/manual/humble/
-            mkdir -p gh-pages/api/humble/
-            cp -r ./canopen/sphinx/_build/html/* gh-pages/manual/humble/
-            cp -r ./canopen/doxygen/_build/html/* gh-pages/api/humble/
+            mkdir -p gh-pages/api/
+            cp -r ./canopen/sphinx/_build/html/* gh-pages/
+            cp -r ./canopen/doxygen/_build/html/* gh-pages/api/
             cd gh-pages
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"

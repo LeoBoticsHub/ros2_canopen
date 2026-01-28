@@ -11,6 +11,9 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   <buildtool_depend>ament_cmake_python</buildtool_depend>
+  <build_depend>lely-core</build_depend>
+  <build_export_depend>lely-core</build_export_depend>
+  <exec_depend>lely-core</exec_depend>
   <depend>pkg-config</depend>
   <depend>python3-empy</depend>
   <depend>python3-yaml</depend>

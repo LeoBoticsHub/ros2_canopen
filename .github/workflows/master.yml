@@ -31,14 +31,14 @@ jobs:
           BEFORE_INSTALL_TARGET_DEPENDENCIES: 'sudo apt-get update'
           ROS_DISTRO: ${{ matrix.ROS_DISTRO }}
           ROS_REPO: ${{ matrix.ROS_REPO }}
-          BEFORE_INSTALL_SYS_DEPENDENCIES: 'sudo add-apt-repository ppa:lely/ppa -y'
-          ADDITIONAL_ROSDEP_YAML: |
-            lely-core:
-              ubuntu: 
-                - liblely-core-dev
-                - liblely-coapp-dev
-                - liblely-co-tools
-                - liblely-tap-dev
-                - python3-dcf-tools
-                - pkg-config
-                - can-utils
+          BEFORE_INSTALL_SYS_DEPENDENCIES: |
+            sudo add-apt-repository ppa:lely/ppa -y && \
+            sudo apt-get update && \
+            sudo apt-get install -y \
+              liblely-core-dev \
+              liblely-coapp-dev \
+              liblely-co-tools \
+              liblely-tap-dev \
+              python3-dcf-tools \
+              pkg-config \
+              can-utils

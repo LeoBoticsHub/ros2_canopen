@@ -55,8 +55,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../user-guide/operation.html">Operation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../user-guide/configuration.html">Configuration Package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../user-guide/configuration.html#bus-configuration-file">Bus Configuration File</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../user-guide/configuration.html#configuration-package-cmake">Configuration Package CMake</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../user-guide/master.html">Master Driver</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../user-guide/proxy-driver.html">Proxy Driver</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../user-guide/cia402-driver.html">Cia402 Driver</a></li>
@@ -70,24 +68,21 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Creating a new device driver</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#what-you-need-to-do">What you need to do</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#how-you-do-it">How you do it</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#create-the-package">Create the package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#create-the-functionality-class">Create the functionality class</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#canopen-functionality">CANopen functionality</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ros2-functionality">ROS2 functionality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#approach-overview">Approach Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-the-package">Create the package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-the-functionality-class">Create the functionality class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#canopen-functionality">CANopen functionality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ros2-functionality">ROS2 functionality</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#create-the-ros2-wrapper-classes">Create the ROS2 wrapper classes</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#adapt-the-cmakelists-txt">Adapt the CMakeLists.txt</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#create-the-ros2-wrapper-classes">Create the ROS2 wrapper classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#adapt-the-cmakelists-txt">Adapt the CMakeLists.txt</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="new-master.html">Creating a new master</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://ros-industrial.github.io/ros2_canopen/api/">API Reference</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://leoboticshub.github.io/ros2_canopen/api/humble/">API Reference</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Software Tests</span></p>
 <ul>
@@ -131,21 +126,19 @@
 need to create a driver for a specific device or a specific device profile that is not yet supported. If you create
 a driver for a device profile we are happy to integrate the package into this repository - simply create
 a PR.</p>
-<section id="what-you-need-to-do">
-<h2>What you need to do<a class="headerlink" href="#what-you-need-to-do" title="Link to this heading"></a></h2>
+<section id="approach-overview">
+<h2>Approach Overview<a class="headerlink" href="#approach-overview" title="Link to this heading"></a></h2>
 <p>To create a new driver you need to implement at least two classes. One being the functional class,
 that contains your drivers functionalities. The other being a ROS2 wrapper node. Generally we recommend
 creating one ROS2 wrapper node and another ROS2 lifecycle wrapper node.</p>
-</section>
-<section id="how-you-do-it">
-<h2>How you do it<a class="headerlink" href="#how-you-do-it" title="Link to this heading"></a></h2>
 <p>First you need to decide from which extension point you want to start. Usually, this is either the core interface, the base driver
 or the proxy driver. Base driver provides you with all necessary callbacks for CANopen functionalities but does
 not come with any ROS2 interface. Proxy driver has a simple forwarding ROS2 interface that is useful for any driver.
 The core interface comes without any functionality, you need to implement everything on your own.
 We recommend creating you driver based on Proxy driver, this will be explained here.</p>
+</section>
 <section id="create-the-package">
-<h3>Create the package<a class="headerlink" href="#create-the-package" title="Link to this heading"></a></h3>
+<h2>Create the package<a class="headerlink" href="#create-the-package" title="Link to this heading"></a></h2>
 <p>Create your new package using the standard ros2 pkg commands. Make sure you add the following dependencies:</p>
 <ul class="simple">
 <li><p>rclcpp</p></li>
@@ -160,10 +153,10 @@ We recommend creating you driver based on Proxy driver, this will be explained h
 <li><p>std_msgs</p></li>
 <li><p>std_srvs</p></li>
 </ul>
-<p>Once done add a subfolder <code class="docutils literal notranslate"><span class="pre">node_interfaces</span></code> in the <code class="docutils literal notranslate"><span class="pre">src/</span></code> and the <code class="docutils literal notranslate"><span class="pre">include/[pacakge_name]/</span></code> folders.</p>
+<p>Once done add a subfolder <code class="docutils literal notranslate"><span class="pre">node_interfaces</span></code> in the <code class="docutils literal notranslate"><span class="pre">src/</span></code> and the <code class="docutils literal notranslate"><span class="pre">include/[package_name]/</span></code> folders.</p>
 </section>
 <section id="create-the-functionality-class">
-<h3>Create the functionality class<a class="headerlink" href="#create-the-functionality-class" title="Link to this heading"></a></h3>
+<h2>Create the functionality class<a class="headerlink" href="#create-the-functionality-class" title="Link to this heading"></a></h2>
 <p>The functionality class is structured similar to a LifecycleNode. The functionality class
 has the following callback functions that are related to lifecycle which you can override:</p>
 <ul class="simple">
@@ -174,7 +167,7 @@ has the following callback functions that are related to lifecycle which you can
 <li><p>void shutdown(bool called_from_base)</p></li>
 </ul>
 <section id="canopen-functionality">
-<h4>CANopen functionality<a class="headerlink" href="#canopen-functionality" title="Link to this heading"></a></h4>
+<h3>CANopen functionality<a class="headerlink" href="#canopen-functionality" title="Link to this heading"></a></h3>
 <p>In addition to the functions there are callbacks for CANopen functionality that you can
 override:</p>
 <ul class="simple">
@@ -198,8 +191,8 @@ use CANopen functionality, these have to be stopped in the deactivate function.<
 </div>
 </section>
 <section id="ros2-functionality">
-<h4>ROS2 functionality<a class="headerlink" href="#ros2-functionality" title="Link to this heading"></a></h4>
-<p>ROS2 functionlity is available via the <code class="docutils literal notranslate"><span class="pre">node_</span></code> object of the functionality class. This
+<h3>ROS2 functionality<a class="headerlink" href="#ros2-functionality" title="Link to this heading"></a></h3>
+<p>ROS2 functionality is available via the <code class="docutils literal notranslate"><span class="pre">node_</span></code> object of the functionality class. This
 object has a templated type and can either be a <code class="docutils literal notranslate"><span class="pre">rclcpp::Node</span></code> or <code class="docutils literal notranslate"><span class="pre">rclcpp_lifecycle::LifecycleNode</span></code>.
 You can use the standard functions like create_timer, create_publisher etc.</p>
 <div class="admonition note">
@@ -247,7 +240,7 @@ need to create a template specialisation.</p>
 </section>
 </section>
 <section id="create-the-ros2-wrapper-classes">
-<h3>Create the ROS2 wrapper classes<a class="headerlink" href="#create-the-ros2-wrapper-classes" title="Link to this heading"></a></h3>
+<h2>Create the ROS2 wrapper classes<a class="headerlink" href="#create-the-ros2-wrapper-classes" title="Link to this heading"></a></h2>
 <p>The ROS2 wrapper classes are fairly easy to create once you wrote the functionality
 class. The wrappers simply use the functionality class to provide the functionality.
 The ROS2 wrapper class should always be derived from <code class="docutils literal notranslate"><span class="pre">ros2_canopen::CanopenDriver</span></code> or
@@ -290,7 +283,7 @@ The ROS2 wrapper class should always be derived from <code class="docutils liter
 </pre></div>
 </div>
 <section id="adapt-the-cmakelists-txt">
-<h4>Adapt the CMakeLists.txt<a class="headerlink" href="#adapt-the-cmakelists-txt" title="Link to this heading"></a></h4>
+<h3>Adapt the CMakeLists.txt<a class="headerlink" href="#adapt-the-cmakelists-txt" title="Link to this heading"></a></h3>
 <p>The CMakeLists.txt file should look like this:</p>
 <div class="highlight-CMAKE notranslate"><div class="highlight"><pre><span></span><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.8</span><span class="p">)</span>
 <span class="nb">project</span><span class="p">(</span><span class="s">canopen_xxx_driver</span><span class="p">)</span>
@@ -423,7 +416,6 @@ The ROS2 wrapper class should always be derived from <code class="docutils liter
 <span class="nb">ament_package</span><span class="p">()</span>
 </pre></div>
 </div>
-</section>
 </section>
 </section>
 </section>

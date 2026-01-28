@@ -54,17 +54,19 @@
 <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="operation.html">Operation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration Package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#bus-configuration-file">Bus Configuration File</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#structure">Structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#options-section">Options Section</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#master-section">Master Section</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#device-section">Device Section</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#further-references">Further references</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#variables">Variables</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bus-configuration-file">Bus Configuration File</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#structure">Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#options-section">Options Section</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#master-section">Master Section</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#device-section">Device Section</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#further-references">Further references</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#variables">Variables</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="#configuration-package-cmake">Configuration Package CMake</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration-package-cmake">Configuration Package CMake</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="master.html">Master Driver</a></li>
 <li class="toctree-l1"><a class="reference internal" href="proxy-driver.html">Proxy Driver</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cia402-driver.html">Cia402 Driver</a></li>
@@ -79,7 +81,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../developers-guide/architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../developers-guide/new-driver.html">Creating a new device driver</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../developers-guide/new-master.html">Creating a new master</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://ros-industrial.github.io/ros2_canopen/api/">API Reference</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://leoboticshub.github.io/ros2_canopen/api/humble/">API Reference</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Software Tests</span></p>
 <ul>
@@ -144,16 +146,15 @@ the bus configuration and the launch files for the different configurations.</p>
 </pre></div>
 </div>
 </div></blockquote>
-</section>
 <section id="bus-configuration-file">
-<h1>Bus Configuration File<a class="headerlink" href="#bus-configuration-file" title="Link to this heading"></a></h1>
+<h2>Bus Configuration File<a class="headerlink" href="#bus-configuration-file" title="Link to this heading"></a></h2>
 <p>The ros2_canopen stack relies on a YAML configuration file that is used
 for configuring the bus topology and specifying configurations for
 each device. The file details which devices connected to the bus, which
 EDS/DCF file applies to them, which parameters of the EDS/DCF files should be
 overwritten and which drivers should be used to control the devices.</p>
 <section id="structure">
-<h2>Structure<a class="headerlink" href="#structure" title="Link to this heading"></a></h2>
+<h3>Structure<a class="headerlink" href="#structure" title="Link to this heading"></a></h3>
 <p>The YAML configuration file has the following sections:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">options</span><span class="p">:</span><span class="w"> </span><span class="c1"># General options especially dcf_path</span>
 <span class="w">  </span><span class="p p-Indicator">[</span><span class="nv">configuration item</span><span class="p p-Indicator">]:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">value</span><span class="p p-Indicator">]</span>
@@ -174,7 +175,7 @@ overwritten and which drivers should be used to control the devices.</p>
 </div>
 </section>
 <section id="options-section">
-<h2>Options Section<a class="headerlink" href="#options-section" title="Link to this heading"></a></h2>
+<h3>Options Section<a class="headerlink" href="#options-section" title="Link to this heading"></a></h3>
 <p>The options section holds general options. Right now these are only the following.</p>
 <table class="longtable docutils align-default" id="id1">
 <caption><span class="caption-text">Options Configuration</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
@@ -195,7 +196,7 @@ overwritten and which drivers should be used to control the devices.</p>
 </table>
 </section>
 <section id="master-section">
-<h2>Master Section<a class="headerlink" href="#master-section" title="Link to this heading"></a></h2>
+<h3>Master Section<a class="headerlink" href="#master-section" title="Link to this heading"></a></h3>
 <p>The master section has a number of configuration options. These are not unique to ros2_canopen
 but come from the lely core library. Below you find a list of possible configuration items.</p>
 <table class="longtable docutils align-default" id="id2">
@@ -289,7 +290,7 @@ but come from the lely core library. Below you find a list of possible configura
 </table>
 </section>
 <section id="device-section">
-<h2>Device Section<a class="headerlink" href="#device-section" title="Link to this heading"></a></h2>
+<h3>Device Section<a class="headerlink" href="#device-section" title="Link to this heading"></a></h3>
 <p>The device configuration enables configuring the characteristics of the connected CANopen
 device.</p>
 <div class="admonition note">
@@ -386,16 +387,16 @@ either only lifecycle drivers or only simple drivers.</p>
 </table>
 </section>
 <section id="further-references">
-<h2>Further references<a class="headerlink" href="#further-references" title="Link to this heading"></a></h2>
+<h3>Further references<a class="headerlink" href="#further-references" title="Link to this heading"></a></h3>
 <p>The dcfgen documentation gives more details on the usage of the dcfgen tool for generating DCF: <a class="reference external" href="https://opensource.lely.com/canopen/docs/dcf-tools/">https://opensource.lely.com/canopen/docs/dcf-tools/</a></p>
 </section>
 <section id="variables">
-<h2>Variables<a class="headerlink" href="#variables" title="Link to this heading"></a></h2>
+<h3>Variables<a class="headerlink" href="#variables" title="Link to this heading"></a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">&#64;BUS_CONFIG_PATH&#64;:</span></code> Automatic config path definition if configuration package structure is followed.</p>
 </section>
 </section>
 <section id="configuration-package-cmake">
-<h1>Configuration Package CMake<a class="headerlink" href="#configuration-package-cmake" title="Link to this heading"></a></h1>
+<h2>Configuration Package CMake<a class="headerlink" href="#configuration-package-cmake" title="Link to this heading"></a></h2>
 <p>In order to build the configuration package and generate the necessary runtime artifacts from the
 bus configuration file and eds/dcf files, the lely_core_libraries package contains an extra
 CMAKE macro.</p>
@@ -404,6 +405,7 @@ CMAKE macro.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cogen_dcf</span><span class="p">(</span><span class="n">bus_config</span><span class="p">)</span>
 </pre></div>
 </div>
+</section>
 </section>
 
 

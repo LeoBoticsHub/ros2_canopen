@@ -5,13 +5,13 @@ Test details
 ------------
 
 .. csv-table:: Tests
-    :header: "Detail", "Information"
-    :delim: ;
+   :header: "Detail", "Information"
+   :delim: ;
 
-    Package; canopen_tests
-    Test file; launch/canopen_system.launch.py
-    Description; Create an exemplary ros2_control SystemInterface with CAN master and communicates to a slave node.
-    Prerequisites; vcan0 must be available
+   Package; canopen_tests
+   Test file; launch/canopen_system.launch.py
+   Description; Create an exemplary ros2_control SystemInterface with CAN master and communicates to a slave node.
+   Prerequisites; vcan0 must be available
 
 To bring up vcan0:
 

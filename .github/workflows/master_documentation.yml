@@ -4,7 +4,12 @@ name: Documentation Master
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ docs_update ]
+    branches: [ master, docs_update ]
+    paths:
+      - 'canopen/**'
+      - '.github/workflows/master_documentation.yml'
+  pull_request:
+    branches: [ master ]
     paths:
       - 'canopen/**'
       - '.github/workflows/master_documentation.yml'

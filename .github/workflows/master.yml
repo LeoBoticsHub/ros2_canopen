@@ -2,9 +2,9 @@ name: Industrial CI
 
 on:
   push:
-    branches: [ docs_update ]
+    branches: [ master, docs_update ]
   pull_request:
-    branches: [ docs_update ]
+    branches: [ master ]
   workflow_dispatch:
 
 jobs:

@@ -1,4 +1,4 @@
-name: Industrial CI Humble
+name: Industrial CI
 
 on:
   push:
@@ -19,29 +19,22 @@ jobs:
     env:
       CCACHE_DIR: "${{ github.workspace }}/.ccache"
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/cache@v4
         with:
           path: ${{ env.CCACHE_DIR }}
           key: ccache-${{ matrix.ROS_DISTRO }}-${{ matrix.ROS_REPO }}-${{github.run_id}}
           restore-keys: |
             ccache-${{ matrix.ROS_DISTRO }}-${{ matrix.ROS_REPO }}-
-
-      # Step 3: This modifies the VM environment
-      - name: Install System Dependencies
-        run: |
-          sudo add-apt-repository ppa:lely/ppa -y
-          sudo apt-get update
-          sudo apt-get install -y \
+      - uses: 'ros-industrial/industrial_ci@master'
+        env:
+          BEFORE_INSTALL_TARGET_DEPENDENCIES: 'sudo add-apt-repository ppa:lely/ppa -y \
+            sudo apt-get update && \
+            sudo apt-get install -y \
             liblely-coapp-dev liblely-co-tools \
             liblely-can-dev liblely-co-dev liblely-ev-dev \
             liblely-io2-dev liblely-libc-dev liblely-tap-dev \
-            liblely-util-dev python3-dcf-tools pkg-config can-utils
-
-      # Step 4: Use the VM environment directly
-      - uses: 'ros-industrial/industrial_ci@master'
-        env:
-          BEFORE_INSTALL_TARGET_DEPENDENCIES: 'sudo apt-get update'
+            liblely-util-dev python3-dcf-tools pkg-config can-utils'
+          AFTER_BUILD_TARGET_WORKSPACE: 'set +u && COLCON_TRACE=0 AMENT_TRACE_SETUP_FILES=0 source /root/target_ws/install/setup.bash && set -u'
           ROS_DISTRO: ${{ matrix.ROS_DISTRO }}
           ROS_REPO: ${{ matrix.ROS_REPO }}
-          DOCKER_BASE_IMAGE: "" # Forces CI to run on the runner, not in a fresh Docker container

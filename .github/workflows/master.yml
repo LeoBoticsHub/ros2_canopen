@@ -28,11 +28,11 @@ jobs:
             ccache-${{ matrix.ROS_DISTRO }}-${{ matrix.ROS_REPO }}-
       - uses: 'ros-industrial/industrial_ci@master'
         env:
-          BEFORE_INSTALL_TARGET_DEPENDENCIES: 'sudo apt-get update && \
-            sudo apt-get install -y software-properties-common && \
-            sudo add-apt-repository ppa:lely/ppa -y && \
-            sudo apt-get update && \
-            sudo apt-get install -y \
+          BEFORE_INSTALL_TARGET_DEPENDENCIES: 'apt-get update && \
+            apt-get install -y software-properties-common && \
+            add-apt-repository ppa:lely/ppa -y && \
+            apt-get update && \
+            apt-get install -y \
             liblely-coapp-dev liblely-co-tools \
             liblely-can-dev liblely-co-dev liblely-ev-dev \
             liblely-io2-dev liblely-libc-dev liblely-tap-dev \

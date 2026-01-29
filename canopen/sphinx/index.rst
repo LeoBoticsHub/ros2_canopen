@@ -37,14 +37,15 @@ This is the documentation of the ROS2 CANopen stack.
   developers-guide/architecture
   developers-guide/new-driver
   developers-guide/new-master
-  API Reference <https://ros-industrial.github.io/ros2_canopen/api/>
+  API Reference <https://leoboticshub.github.io/ros2_canopen/api/>
 
 .. toctree::
   :maxdepth: 1
   :caption: Software Tests
   :glob:
 
-  software-tests/**
+  software-tests/proxy-driver-test
+  software-tests/ros2_control_system-test
 
 .. toctree::
   :maxdepth: 1

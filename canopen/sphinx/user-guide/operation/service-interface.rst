@@ -5,7 +5,7 @@ Service Interface
 Device Container
 """""""""""""""""
 The device container implements ROS2 component manager. The load and unload services are disabled.
-Devices are loaded based on the Bus Configuration File (bus.yml). It provides the list service though.
+Devices are loaded based on the Bus Configuration File (bus.yaml). It provides the list service though.
 
 .. figure:: ../../images/device-manager.png
     :alt: Device Manager Concept

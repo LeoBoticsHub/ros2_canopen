@@ -6,14 +6,14 @@ need to create a driver for a specific device or a specific device profile that 
 a driver for a device profile we are happy to integrate the package into this repository - simply create
 a PR.
 
-What you need to do
-""""""""""""""""""""
+Approach Overview
+-----------------
+
 To create a new driver you need to implement at least two classes. One being the functional class,
 that contains your drivers functionalities. The other being a ROS2 wrapper node. Generally we recommend
 creating one ROS2 wrapper node and another ROS2 lifecycle wrapper node.
 
-How you do it
-""""""""""""""
+
 First you need to decide from which extension point you want to start. Usually, this is either the core interface, the base driver
 or the proxy driver. Base driver provides you with all necessary callbacks for CANopen functionalities but does
 not come with any ROS2 interface. Proxy driver has a simple forwarding ROS2 interface that is useful for any driver.
@@ -36,7 +36,7 @@ Create your new package using the standard ros2 pkg commands. Make sure you add 
 * std_msgs
 * std_srvs
 
-Once done add a subfolder ``node_interfaces`` in the ``src/`` and the ``include/[pacakge_name]/`` folders.
+Once done add a subfolder ``node_interfaces`` in the ``src/`` and the ``include/[package_name]/`` folders.
 
 
 Create the functionality class
@@ -75,7 +75,7 @@ provides the following functions you should use in your driver:
 
 ROS2 functionality
 ******************
-ROS2 functionlity is available via the ``node_`` object of the functionality class. This
+ROS2 functionality is available via the ``node_`` object of the functionality class. This
 object has a templated type and can either be a ``rclcpp::Node`` or ``rclcpp_lifecycle::LifecycleNode``.
 You can use the standard functions like create_timer, create_publisher etc.
 

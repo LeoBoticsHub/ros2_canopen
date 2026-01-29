@@ -1,7 +1,7 @@
 How to create a robot system with ros2_control
 ==============================================
 This guide describes how to create a simple robot using the robot system hardware interface
-leveragin ros2_control.
+leveraging ros2_control.
 
 1. Create a new configuration package with the name ``canopen_robot_control_example``.
 
@@ -20,13 +20,13 @@ leveragin ros2_control.
 
     $ mkdir -p config/robot_control
 
-3. Create a new bus configuration file with the name ``bus.yml``.
+3. Create a new bus configuration file with the name ``bus.yaml``.
 
   .. code-block:: console
 
-    $ touch config/robot_control/bus.yml
+    $ touch config/robot_control/bus.yaml
 
-4. Add the following content to the ``bus.yml`` file.
+4. Add the following content to the ``bus.yaml`` file.
 
 .. code-block:: yaml
 

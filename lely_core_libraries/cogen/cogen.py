@@ -20,7 +20,7 @@ from dcfgen.cli import Master, Slave
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Expands the CANopen bus.yml for further processing."
+        description="Expands the CANopen bus.yaml for further processing."
     )
     parser.add_argument("--input-file", type=str, help="The name of the input file", required=True)
     parser.add_argument(

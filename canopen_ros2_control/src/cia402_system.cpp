@@ -88,6 +88,46 @@ hardware_interface::CallbackReturn Cia402System::on_configure(
 
   // threads
   spin_thread_ = std::make_unique<std::thread>(&Cia402System::spin, this);
+
+  // === FIX REAL-TIME: PRIORITÀ HIGH ALLO SPIN THREAD DI LELY/ROS ===
+  if (spin_thread_ && spin_thread_->joinable())
+  {
+    pthread_t lely_ros_thread = spin_thread_->native_handle();
+    
+    // 1. LEGGI LA PRIORITÀ ATTUALE (Prima della modifica)
+    int current_policy;
+    struct sched_param current_param;
+    
+    if (pthread_getschedparam(lely_ros_thread, &current_policy, &current_param) == 0)
+    {
+      const char* policy_name = "Sconosciuta";
+      if (current_policy == SCHED_OTHER) policy_name = "SCHED_OTHER (Normale/Civile)";
+      else if (current_policy == SCHED_FIFO)  policy_name = "SCHED_FIFO (Real-Time)";
+      else if (current_policy == SCHED_RR)    policy_name = "SCHED_RR (Real-Time Round-Robin)";
+      
+      RCLCPP_INFO(kLogger, "STATUS INIZIALE - Politica: %s, Priorità numerica: %d", 
+                  policy_name, current_param.sched_priority);
+    }
+    else
+    {
+      RCLCPP_WARN(kLogger, "Impossibile leggere la priorità iniziale dello spin_thread");
+    }
+
+    // 2. APPLICA IL FIX (Forza SCHED_FIFO a 80)
+    struct sched_param target_param;
+    target_param.sched_priority = 80;
+    
+    if (pthread_setschedparam(lely_ros_thread, SCHED_FIFO, &target_param) != 0)
+    {
+      RCLCPP_WARN(kLogger, "ATTENZIONE: Impossibile impostare SCHED_FIFO sullo spin_thread! Controlla i permessi in /etc/security/limits.conf");
+    }
+    else
+    {
+      RCLCPP_INFO(kLogger, "SUCCESSO: spin_thread di ros2_canopen impostato in SCHED_FIFO (Priorità 80)");
+    }
+  }
+  // =================================================================
+
   init_thread_ = std::make_unique<std::thread>(&Cia402System::initDeviceContainer, this);
 
   // actually wait for init phase to end

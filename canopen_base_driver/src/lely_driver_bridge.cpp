@@ -195,8 +195,16 @@ void LelyDriverBridge::OnRpdoWrite(uint16_t idx, uint8_t subidx) noexcept
   }
   COData codata = {idx, subidx, data};
 
-  //  We do not care so much about missing a message, rather push them through.
-  rpdo_queue->push(codata);
+  // If a direct callback is registered, call it immediately (bypasses queue and SYNC gating).
+  // Otherwise fall back to queue (consumed at next SYNC via poll_timer_callback).
+  if (on_rpdo_write_function_)
+  {
+    on_rpdo_write_function_(codata);
+  }
+  else
+  {
+    rpdo_queue->push(codata);
+  }
 }
 
 void LelyDriverBridge::OnEmcy(uint16_t eec, uint8_t er, uint8_t msef[5]) noexcept

@@ -668,7 +668,15 @@ bool NodeCanopen402Driver<NODETYPE>::set_target(double target)
       scaled_target = target;
     }
     // RCLCPP_INFO(this->node_->get_logger(), "Scaled target %f", scaled_target);
-    return motor_->setTarget(scaled_target);
+    bool result = motor_->setTarget(scaled_target);
+    if (result)
+    {
+      // Immediately trigger the PDO write without waiting for the next SYNC.
+      // Without this, handleWrite() would only be called in poll_timer_callback()
+      // (triggered by OnSync every 2ms), causing up to 2ms of D1 latency.
+      motor_->handleWrite();
+    }
+    return result;
   }
   else
   {

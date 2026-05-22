@@ -226,6 +226,14 @@ void NodeCanopenBaseDriver<NODETYPE>::activate(bool called_from_base)
     RCLCPP_INFO(this->node_->get_logger(), "Starting with event mode.");
     this->lely_driver_->set_sync_function(
       std::bind(&NodeCanopenBaseDriver<NODETYPE>::poll_timer_callback, this));
+    // Bypass queue: call on_rpdo directly in OnRpdoWrite (eliminates SYNC-gated D3 delay).
+    this->lely_driver_->set_rpdo_write_function(
+      [this](ros2_canopen::COData data)
+      {
+        if (!this->activated_.load()) return;
+        if (rpdo_cb_) rpdo_cb_(data, this->lely_driver_->get_id());
+        on_rpdo(data);
+      });
   }
 
   if (diagnostic_enabled_.load())
@@ -239,6 +247,7 @@ void NodeCanopenBaseDriver<NODETYPE>::activate(bool called_from_base)
 template <class NODETYPE>
 void NodeCanopenBaseDriver<NODETYPE>::deactivate(bool called_from_base)
 {
+  this->lely_driver_->unset_rpdo_write_function();
   nmt_state_publisher_thread_.join();
   poll_timer_->cancel();
   emcy_queue_.reset();

@@ -320,6 +320,7 @@ protected:
   std::chrono::milliseconds sdo_timeout;
 
   std::function<void()> on_sync_function_;
+  std::function<void(COData)> on_rpdo_write_function_;
 
   // void set_sync_function(std::function<void()> on_sync_function)
   // {
@@ -704,6 +705,13 @@ public:
   }
 
   void unset_sync_function() { on_sync_function_ = std::function<void()>(); }
+
+  void set_rpdo_write_function(std::function<void(COData)> fn)
+  {
+    on_rpdo_write_function_ = fn;
+  }
+
+  void unset_rpdo_write_function() { on_rpdo_write_function_ = nullptr; }
 
   /**
    * @brief Request master to boot device

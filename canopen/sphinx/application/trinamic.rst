@@ -16,7 +16,7 @@ Configuration
 
 - Create a new folder in the ``config`` folder of your configuration package. Name it ``single-pd42``.
 - Download ``.eds`` file from `Trinamic <https://www.trinamic.com/fileadmin/assets/Products/Drives_Software/TMCM-1270_CANopen_V326.zip>`_ and place ``TMCM-1270.eds`` in the ``single-pd42`` folder.
-- Create a ``bus.yml`` file in the ``single-pd42`` folder with the following content:
+- Create a ``bus.yaml`` file in the ``single-pd42`` folder with the following content:
 
     .. code-block:: yaml
 
@@ -154,7 +154,7 @@ Configuration
                         get_package_share_directory("trinamic_pd42_can"),
                         "config",
                         "single-pd42",
-                        "bus.yml",
+                        "bus.yaml",
                     ),
                     "can_interface_name": "vcan0",
                 }.items(),

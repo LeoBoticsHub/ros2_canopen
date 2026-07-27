@@ -1,58 +1,57 @@
 # ROS2 CANopen
 
+## Overview
+
+This project provides a ROS2 stack for interfacing with CANopen devices. Specifically, it provides a ROS2 wrapper around the Lely CANopen library.
+This stack enables communication with CANopen devices using different operation modes, such as service based, managed service based, and ros2_control based operation.
+It allows control of CANopen devices such as motor drives, I/O modules, and sensors, and provides a flexible and modular architecture for integrating CANopen devices into ROS2-based robotic systems.
+
+This repository is a fork of the original [ROS2-CANopen project](https://github.com/ros-industrial/ros2_canopen).
+This modified version provides a few improvements on the usability and reliability of the original stack.
+The master branch is compatible with ROS2 Humble distribution only.
+
+## Installation
+
 Install the CAN dependencies:
 ```bash
-sudo apt-get install can-utils
+sudo apt-get install software-properties-common
 sudo add-apt-repository ppa:lely/ppa
 sudo apt-get update
-sudo apt-get install liblely-coapp-dev liblely-co-tools liblely-tap-dev python3-dcf-tools pkg-config
+sudo apt-get install liblely-coapp-dev liblely-co-tools liblely-tap-dev python3-dcf-tools pkg-config can-utils
 ```
 
+Clone the repository into your ROS2 workspace src folder:
+```bash
+cd ~/ros2_ws/src
+git clone git@github.com:LeoBoticsHub/ros2_canopen.git
+```
+
+Build the workspace:
+```bash
+cd ~/ros2_ws
+colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
+```
+
+***Note:** Master branch works with ROS2 **Humble** distributions.
 
 ## Status
 
 | Build Process | Status |
 |---------------|--------|
-| Industrial CI Build | [![Industrial CI](https://github.com/ros-industrial/ros2_canopen/actions/workflows/rolling.yml/badge.svg)](https://github.com/ros-industrial/ros2_canopen/actions/workflows/rolling.yml) |
-| Documentation Build | [![Documentation](https://github.com/ros-industrial/ros2_canopen/actions/workflows/rolling_documentation.yml/badge.svg)](https://github.com/ros-industrial/ros2_canopen/actions/workflows/rolling_documentation.yml) |
-| Buildfarm Build (rolling) | [![Buildfarm Status](https://build.ros2.org/job/Rdev__ros2_canopen__ubuntu_noble_amd64/badge/icon)](https://build.ros2.org/job/Rdev__ros2_canopen__ubuntu_noble_amd64/) |
-| Buildfarm Build (kilted) | [![Buildfarm Status](https://build.ros2.org/job/Kdev__ros2_canopen__ubuntu_noble_amd64/badge/icon)](https://build.ros2.org/job/Kdev__ros2_canopen__ubuntu_noble_amd64/) |
-| Buildfarm Build (jazzy) | [![Buildfarm Status](https://build.ros2.org/job/Jdev__ros2_canopen__ubuntu_noble_amd64/badge/icon)](https://build.ros2.org/job/Jdev__ros2_canopen__ubuntu_noble_amd64/) |
+| Industrial CI Build | [![Industrial CI](https://github.com/LeoBoticsHub/ros2_canopen/actions/workflows/master.yml/badge.svg)](https://github.com/LeoBoticsHub/ros2_canopen/actions/workflows/master.yml) |
+| Documentation Build | [![Documentation](https://github.com/LeoBoticsHub/ros2_canopen/actions/workflows/master_documentation.yml/badge.svg)](https://github.com/LeoBoticsHub/ros2_canopen/actions/workflows/master_documentation.yml) |
 
-The stack is currently under development and not yet ready for production use.
-
-### Rolling Distribution (Noble & RHEL9)
-
-| Package                  | Noble (Ubuntu)                                                                                                                  | RHEL9                                                                                                                            |
-|--------------------------|---------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
-| canopen_interfaces       | [![Build Status](https://build.ros2.org/job/Rbin_uN64__canopen_interfaces__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__canopen_interfaces__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__canopen_interfaces__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__canopen_interfaces__rhel_9_x86_64__binary/) |
-| lely_core_libraries      | [![Build Status](https://build.ros2.org/job/Rbin_uN64__lely_core_libraries__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__lely_core_libraries__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__lely_core_libraries__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__lely_core_libraries__rhel_9_x86_64__binary/) |
-| canopen_core             | [![Build Status](https://build.ros2.org/job/Rbin_uN64__canopen_core__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__canopen_core__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__canopen_core__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__canopen_core__rhel_9_x86_64__binary/) |
-| canopen_master_driver    | [![Build Status](https://build.ros2.org/job/Rbin_uN64__canopen_master_driver__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__canopen_master_driver__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__canopen_master_driver__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__canopen_master_driver__rhel_9_x86_64__binary/) |
-| canopen_base_driver      | [![Build Status](https://build.ros2.org/job/Rbin_uN64__canopen_base_driver__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__canopen_base_driver__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__canopen_base_driver__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__canopen_base_driver__rhel_9_x86_64__binary/) |
-| canopen_proxy_driver     | [![Build Status](https://build.ros2.org/job/Rbin_uN64__canopen_proxy_driver__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__canopen_proxy_driver__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__canopen_proxy_driver__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__canopen_proxy_driver__rhel_9_x86_64__binary/) |
-| canopen_402_driver       | [![Build Status](https://build.ros2.org/job/Rbin_uN64__canopen_402_driver__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__canopen_402_driver__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__canopen_402_driver__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__canopen_402_driver__rhel_9_x86_64__binary/) |
-| canopen_ros2_control     | [![Build Status](https://build.ros2.org/job/Rbin_uN64__canopen_ros2_control__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__canopen_ros2_control__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__canopen_ros2_control__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__canopen_ros2_control__rhel_9_x86_64__binary/) |
-| canopen_ros2_controllers | [![Build Status](https://build.ros2.org/job/Rbin_uN64__canopen_ros2_controllers__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__canopen_ros2_controllers__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__canopen_ros2_controllers__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__canopen_ros2_controllers__rhel_9_x86_64__binary/) |
-| canopen_tests            | [![Build Status](https://build.ros2.org/job/Rbin_uN64__canopen_tests__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__canopen_tests__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__canopen_tests__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__canopen_tests__rhel_9_x86_64__binary/) |
-| canopen_utils            | [![Build Status](https://build.ros2.org/job/Rbin_uN64__canopen_utils__ubuntu_noble_amd64__binary/badge/icon)](https://build.ros2.org/job/Rbin_uN64__canopen_utils__ubuntu_noble_amd64__binary/) | [![Build Status](https://build.ros2.org/job/Rbin_rhel_el964__canopen_utils__rhel_9_x86_64__binary/badge/icon)](https://build.ros2.org/job/Rbin_rhel_el964__canopen_utils__rhel_9_x86_64__binary/) |
 
 ## Documentation
+
 The documentation consists of two parts: a manual and an api reference.
-The documentation is built for rolling (master), iron and humble and hosted on github pages.
-Older ROS 2 releases are EOL and are not supported anymore.
+The documentation is built for Humble (master branch) and hosted on github pages.
 
-***Note:** Master branch works with ROS2 **Jazzy**, **Kilted** and **Rolling** distributions. For **Humble** distribution use the `humble` branch.*
-
-### Rolling
-* Manual: https://ros-industrial.github.io/ros2_canopen/manual/rolling/
-* API reference: https://ros-industrial.github.io/ros2_canopen/api/rolling/
-
-### Humble
-* Manual: https://ros-industrial.github.io/ros2_canopen/manual/humble/
-* API reference: https://ros-industrial.github.io/ros2_canopen/api/humble/
+* Manual: [https://leoboticshub.github.io/ros2_canopen/](https://leoboticshub.github.io/ros2_canopen/)
+* API reference: [https://leoboticshub.github.io/ros2_canopen/api/](https://leoboticshub.github.io/ros2_canopen/api)
 
 ## Features
+
 These are some of the features this stack implements. For further information please refer to the documentation.
 
 * **YAML-Bus configuration**
@@ -61,21 +60,32 @@ These are some of the features this stack implements. For further information pl
   The stack can be operated using standard ROS2 nodes. In this case the device container will load the drivers for master and slave nodes. Each driver will be visible as a
   node and expose a ROS 2 interface. All drivers are brought up when the device manager is launched.
 * **Managed service based operation**
-  The stack can be opeprated using managed ROS2 nodes. In
+  The stack can be operated using managed ROS2 nodes. In
   this case the device container will load the drivers for master and slave nodes based on the bus configuration. Each driver will be a lifecycle node and expose a ROS 2 interface. The lifecycle manager can be used to bring all
   device up and down in the correct sequence.
 * **ROS2 control based operation**
   Currently, multiple ros2_control interfaces are available. These can be used for controlling CANopen devices. The interfaces are:
-  * canopen_ros2_control/CANopenSystem
-  * canopen_ros2_control/CIA402System
-  * canopen_ros2_control/RobotSystem
+  * `canopen_ros2_control/CANopenSystem`
+  * `canopen_ros2_control/CIA402System`
+  * `canopen_ros2_control/RobotSystem`
 * **CANopen drivers**
   Currently, the following drivers are available:
-    * ProxyDriver
-    * Cia402Driver
+    * `ProxyDriver`
+    * `Cia402Driver`
 
+## Examples
 
-## Post testing
+In the `canopen_tests` package, you can find multiple examples that demonstrate how to use the stack in different ways.
+Each `config` subfolder contains the bus configuration file in YAML format, and the corresponding electronic datasheets (EDS) for the nodes.
+
+The launch files demonstrate how to launch the canopen ros2 driver depending on the type of operation to be performed, the type of canopen protocol, and the ros2 node type (lifecycle or standard). 
+These are useful starting points for your own applications.
+
+The `urdf` folder contains simple robot descriptions that can be used with the ros2_control examples. They are fundamental to
+understand how to setup a robot relying on the ros2 canopen driver as hardware interface actuators using ros2_control.
+
+## Testing
+
 To test stack after it was built from source you should first setup a virtual can network.
 ```bash
 sudo modprobe vcan
@@ -83,6 +93,7 @@ sudo ip link add dev vcan0 type vcan
 sudo ip link set vcan0 txqueuelen 1000
 sudo ip link set up vcan0
 ```
+
 Then you can launch a managed example
 ```bash
 ros2 launch canopen_tests cia402_lifecycle_setup.launch.py
@@ -99,18 +110,3 @@ Or you can launch a ros2_control example
 ```bash
 ros2 launch canopen_tests robot_control_setup.launch.py
 ```
-
-## Contributing
-This repository uses `pre-commit` for code formatting.
-This program has to be setup locally and installed inside the repository.
-For this execute in the repository folder following commands:
-```
-sudo apt install -y pre-commit
-pre-commit install
-```
-The checks are automatically executed before each commit.
-This helps you to always commit well formatted code.
-To run all the checks manually use `pre-commit run -a` command.
-For the other options check `pre-commit --help`.
-
-In a case of an "emergency" you can avoid execution of pre-commit hooks by adding `-n` flag to `git commit` command - this is NOT recommended to do if you don't know what are you doing!

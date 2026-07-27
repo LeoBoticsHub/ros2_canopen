@@ -15,9 +15,9 @@ Device drivers need to implement the ros2_canopen::CanopenDriverInterface.
 
 The difference between the ros2_canopen::DeviceContainer and the rclcpp::ComponentContainer
 is that the device container loads only master and driver components specified in the bus
-configuration (bus.yml). It does not have services for loading components online. All components
+configuration (bus.yaml). It does not have services for loading components online. All components
 that are connected or will be connected to the CANopen Bus need to be known and specified in
-the bus.yml before starting the device container.
+the bus.yaml before starting the device container.
 
 .. uml::
 

@@ -5,7 +5,7 @@ Managed Service Interface
 Device Container with managed nodes
 """""""""""""""""""""""""""""""""""
 The device container implements ROS2 component manager. The load and unload services are disabled.
-Devices are loaded based on the Bus Configuration File (bus.yml). The device container provides
+Devices are loaded based on the Bus Configuration File (bus.yaml). The device container provides
 the list service, which can be used with ros2cli to check which components have been loaded.
 
 .. figure:: ../../images/device-manager.png

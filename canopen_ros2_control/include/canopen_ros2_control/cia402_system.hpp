@@ -25,6 +25,7 @@
 #ifndef CANOPEN_ROS2_CONTROL__CIA402_SYSTEM_HPP_
 #define CANOPEN_ROS2_CONTROL__CIA402_SYSTEM_HPP_
 
+#include <deque>
 #include "canopen_402_driver/cia402_driver.hpp"
 #include "canopen_ros2_control/canopen_system.hpp"
 
@@ -117,6 +118,20 @@ protected:
   std::map<uint, MotorNodeData> motor_data_;
 
 private:
+  // ---------------------------------------------------------------------------
+  // Command delay (configurable via URDF param "command_delay_ms")
+  // ---------------------------------------------------------------------------
+  struct DelayedTarget {
+    rclcpp::Time timestamp;
+    double position_value;
+    double velocity_value;
+    double torque_value;
+  };
+  std::map<uint, std::deque<DelayedTarget>> delay_buffer_;
+  std::map<uint, DelayedTarget> last_forwarded_;
+  rclcpp::Duration command_delay_{0, 0};
+  // ---------------------------------------------------------------------------
+
   void switchModes(uint id, const std::shared_ptr<ros2_canopen::Cia402Driver> & driver);
 
   void handleInit(uint id, const std::shared_ptr<ros2_canopen::Cia402Driver> & driver);

@@ -43,6 +43,17 @@ hardware_interface::CallbackReturn Cia402System::on_init(
     return CallbackReturn::ERROR;
   }
 
+  // Read optional command delay (milliseconds)
+  double delay_ms = 0.0;
+  if (info.hardware_parameters.count("command_delay_ms"))
+  {
+    try { delay_ms = std::stod(info.hardware_parameters.at("command_delay_ms")); }
+    catch (...) { delay_ms = 0.0; }
+    if (delay_ms < 0.0) delay_ms = 0.0;
+  }
+  command_delay_ = rclcpp::Duration(0, static_cast<uint32_t>(delay_ms * 1e6));
+  RCLCPP_INFO(kLogger, "Cia402System command_delay_ms=%.3f", delay_ms);
+
   return CallbackReturn::SUCCESS;
 }
 
@@ -89,41 +100,41 @@ hardware_interface::CallbackReturn Cia402System::on_configure(
   // threads
   spin_thread_ = std::make_unique<std::thread>(&Cia402System::spin, this);
 
-  // === FIX REAL-TIME: PRIORITÀ HIGH ALLO SPIN THREAD DI LELY/ROS ===
+  // === FIX REAL-TIME: HIGH PRIORITY TO LELY THREAD===
   if (spin_thread_ && spin_thread_->joinable())
   {
     pthread_t lely_ros_thread = spin_thread_->native_handle();
     
-    // 1. LEGGI LA PRIORITÀ ATTUALE (Prima della modifica)
+    // 1. READ CURRENT PRIORITY
     int current_policy;
     struct sched_param current_param;
     
     if (pthread_getschedparam(lely_ros_thread, &current_policy, &current_param) == 0)
     {
-      const char* policy_name = "Sconosciuta";
-      if (current_policy == SCHED_OTHER) policy_name = "SCHED_OTHER (Normale/Civile)";
+      const char* policy_name = "Unknown";
+      if (current_policy == SCHED_OTHER) policy_name = "SCHED_OTHER (Default)";
       else if (current_policy == SCHED_FIFO)  policy_name = "SCHED_FIFO (Real-Time)";
       else if (current_policy == SCHED_RR)    policy_name = "SCHED_RR (Real-Time Round-Robin)";
       
-      RCLCPP_INFO(kLogger, "STATUS INIZIALE - Politica: %s, Priorità numerica: %d", 
+      RCLCPP_INFO(kLogger, "Initial state Policy %s, Priority numeric: %d", 
                   policy_name, current_param.sched_priority);
     }
     else
     {
-      RCLCPP_WARN(kLogger, "Impossibile leggere la priorità iniziale dello spin_thread");
+      RCLCPP_WARN(kLogger, "Unable to read initial priority of spin_thread");
     }
 
-    // 2. APPLICA IL FIX (Forza SCHED_FIFO a 80)
+    // 2. Set new priority 
     struct sched_param target_param;
     target_param.sched_priority = 80;
     
     if (pthread_setschedparam(lely_ros_thread, SCHED_FIFO, &target_param) != 0)
     {
-      RCLCPP_WARN(kLogger, "ATTENZIONE: Impossibile impostare SCHED_FIFO sullo spin_thread! Controlla i permessi in /etc/security/limits.conf");
+      RCLCPP_WARN(kLogger, "Failed to set spin_thread to SCHED_FIFO with priority 80. This may require elevated privileges.");
     }
     else
     {
-      RCLCPP_INFO(kLogger, "SUCCESSO: spin_thread di ros2_canopen impostato in SCHED_FIFO (Priorità 80)");
+      RCLCPP_INFO(kLogger, "SUCCESS: spin_thread of ros2_canopen set to SCHED_FIFO (Priority 80)");
     }
   }
   // =================================================================
@@ -301,6 +312,35 @@ hardware_interface::return_type Cia402System::read(
 hardware_interface::return_type Cia402System::write(
   const rclcpp::Time & time, const rclcpp::Duration & period)
 {
+  // --- Command delay buffer -------------------------------------------
+  if (command_delay_.nanoseconds() > 0)
+  {
+    for (auto & [node_id, motor] : motor_data_)
+    {
+      // Push current command into FIFO
+      delay_buffer_[node_id].push_back(
+        {time, motor.target.position_value, motor.target.velocity_value, motor.target.torque_value});
+
+      // Pop commands old enough
+      const rclcpp::Time deadline = time - command_delay_;
+      while (!delay_buffer_[node_id].empty() &&
+             delay_buffer_[node_id].front().timestamp <= deadline)
+      {
+        last_forwarded_[node_id] = delay_buffer_[node_id].front();
+        delay_buffer_[node_id].pop_front();
+      }
+
+      // Apply delayed target (hold last if nothing ready yet)
+      if (last_forwarded_.count(node_id))
+      {
+        motor.target.position_value = last_forwarded_[node_id].position_value;
+        motor.target.velocity_value = last_forwarded_[node_id].velocity_value;
+        motor.target.torque_value   = last_forwarded_[node_id].torque_value;
+      }
+    }
+  }
+  // --------------------------------------------------------------------
+
   auto drivers = device_container_->get_registered_drivers();
 
   for (auto it = canopen_data_.begin(); it != canopen_data_.end(); ++it)
